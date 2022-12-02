@@ -9,6 +9,7 @@ var ChiptuneAudioContext = window['AudioContext'] || window['webkitAudioContext'
 var ChiptuneJsConfig = function (repeatCount, stereoSeparation, interpolationFilter, context)
 {
   this.repeatCount = repeatCount;
+  this.dither = 0;
   this.stereoSeparation = stereoSeparation;
   this.interpolationFilter = interpolationFilter;
   this.context = context;
@@ -144,7 +145,7 @@ ChiptuneJsPlayer.prototype.play = function(buffer) {
   // set config options on module
   libopenmpt._openmpt_module_set_repeat_count(processNode.modulePtr, this.config.repeatCount);
   libopenmpt._openmpt_module_set_render_param(processNode.modulePtr, OPENMPT_MODULE_RENDER_STEREOSEPARATION_PERCENT, this.config.stereoSeparation);
-  libopenmpt._openmpt_module_set_render_param(processNode.modulePtr, OPENMPT_MODULE_RENDER_INTERPOLATIONFILTER_LENGTH, this.config.interpolationFilter);
+  libopenmpt._openmpt_module_set_render_param(processNode.modulePtr, OPENMPT_MODULE_RENDER_INTERPOLATIONFILTER_LENGTH, 8);
 
   this.currentPlayingNode = processNode;
   processNode.connect(this.context.destination);
